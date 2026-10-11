@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rafiki Perfumes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf6ec;--ink:#24090f;--card:#fffdf8;--line:#e3d5b5;--muted:#7b6a58;--gold:#c9a45c;--brand:#3a0b19;--ivory:#f6ecd6;
+--disp:"Cormorant Garamond",Georgia,"Times New Roman",serif;--sans:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:calc(90px + env(safe-area-inset-top,0px));scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans)}
+button,input,select{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.ann{background:var(--brand);color:var(--gold);overflow:hidden;white-space:nowrap;font-size:12.5px;letter-spacing:.14em;padding:9px 0}
+.mq{display:flex;width:max-content;animation:mq 40s linear infinite}.mq span{padding-right:40px}
+@keyframes mq{to{transform:translateX(-50%)}}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(251,246,236,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px;flex-wrap:wrap}
+.logo{font:700 24px var(--disp);letter-spacing:.16em;text-decoration:none;color:var(--ink)}
+.nav{display:flex;gap:26px;font-size:14px}.nav a{color:var(--ink);text-decoration:none;padding:4px 0;border-bottom:1px solid transparent}.nav a:hover{border-color:var(--gold)}
+.bag{background:var(--brand);color:var(--ivory);border:0;border-radius:999px;padding:9px 20px;font-weight:500}
+.bag b{background:var(--gold);color:var(--brand);border-radius:999px;padding:1px 9px;margin-left:8px;font-size:13px}
+.hero{background:radial-gradient(800px 480px at 80% 40%,rgba(201,164,92,.25),transparent 70%),var(--brand);color:var(--ivory)}
+.hero .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;padding-top:72px;padding-bottom:72px}
+.eye{font-size:12.5px;letter-spacing:.2em;color:var(--gold);margin:0 0 16px}
+.hero h1{font:600 clamp(48px,7vw,90px)/1 var(--disp);margin:0 0 20px}
+em{font-style:italic;color:var(--gold)}
+.hero p.lead{max-width:44ch;font-size:18px;color:#d9c9a5;margin:0 0 30px}
+.cta{display:inline-block;border-radius:999px;padding:13px 28px;font-weight:500;text-decoration:none;border:1px solid var(--gold);background:var(--gold);color:var(--brand);transition:background .2s,color .2s}
+.cta.o{background:none;color:var(--ivory);margin-left:10px}.cta:hover{background:var(--ivory);border-color:var(--ivory);color:var(--brand)}
+.stats{display:flex;gap:36px;margin-top:44px}.stats b{display:block;font:600 42px/1 var(--disp);color:var(--gold)}.stats span{font-size:13px;color:#d9c9a5}
+.art{position:relative;border-radius:240px 240px 18px 18px;background:linear-gradient(#5a1830,#2e0814);border:1px solid rgba(201,164,92,.5);aspect-ratio:4/5;display:grid;place-items:center}
+.art #hb svg{width:46%;height:auto}
+.cap{position:absolute;left:-18px;bottom:28px;background:var(--ivory);color:var(--brand);border-radius:14px;padding:12px 18px;box-shadow:0 14px 34px rgba(0,0,0,.35)}
+.cap b{display:block;font:700 22px var(--disp)}.cap small{color:var(--muted)}
+.sec{padding:72px 0}.head{margin-bottom:28px}.head .eye{color:var(--muted)}
+.head h2,.story h2{font:600 clamp(36px,5vw,54px)/1.05 var(--disp);margin:0 0 8px}
+.head p{color:var(--muted);margin:0;max-width:52ch}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;align-items:flex-start;min-height:240px;transition:border-color .2s,transform .2s}
+.tile:hover{border-color:var(--gold);transform:translateY(-3px)}
+.tile svg{width:62px;margin:auto 0 18px}.tile b{font:700 28px/1 var(--disp)}.tile small{color:var(--muted)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
+.tabs button{background:none;border:1px solid var(--ink);border-radius:999px;padding:8px 20px;transition:background .2s,color .2s}
+.tabs button:hover{background:var(--ivory)}.tabs button[aria-selected="true"]{background:var(--brand);color:var(--gold);border-color:var(--brand)}
+.bar{display:flex;flex-wrap:wrap;gap:12px}
+.bar input,.bar select{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 14px}
+.bar input{flex:1 1 220px}.bar select{flex:0 1 190px}
+.count{font-size:13px;color:var(--muted);margin:16px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;display:flex;flex-direction:column;overflow:hidden;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--gold);transform:translateY(-3px)}
+.open{background:none;border:0;padding:0;text-align:left;display:block;width:100%}
+.pic{aspect-ratio:4/5;display:grid;place-items:end center;background:linear-gradient(#f6ecd6,#e8d6ac);overflow:hidden}
+.pic svg{width:96px;height:auto;margin-bottom:12%}.pic img{width:100%;height:100%;object-fit:cover;display:block}
+.info{padding:14px 16px 4px}.brand{font-size:13px;color:var(--muted);margin:0}
+.name{font:700 25px/1.1 var(--disp);margin:2px 0 6px}.meta{font-size:13px;color:var(--muted);margin:0}
+.foot{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 16px;margin-top:auto}
+.price{font-weight:700;font-size:17px}
+.add{background:var(--brand);color:var(--ivory);border:0;border-radius:999px;padding:8px 16px;font-size:14px;transition:background .2s,color .2s}
+.add:hover{background:var(--gold);color:var(--brand)}
+.story{background:var(--ivory)}.story .wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center}
+.story .art{border-radius:18px;aspect-ratio:1;background:linear-gradient(#5a1830,#2e0814);display:flex;align-items:flex-end;justify-content:center;gap:0;padding:0 8%}
+.story .art svg{width:30%;margin:0 -1% 12%}.story .art svg:nth-child(2){width:38%}
+.story p{max-width:52ch;color:#5a4a3a}.vals{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 28px}
+.vals span{border:1px solid var(--gold);border-radius:999px;padding:5px 14px;font-size:14px}
+.cta.d{background:var(--brand);color:var(--ivory);border-color:var(--brand)}
+.contact{background:var(--brand);color:var(--ivory);text-align:center}.contact h2{font:600 clamp(36px,5vw,54px)/1.05 var(--disp);margin:0 0 10px}.contact p{color:#d9c9a5;margin:0 auto 26px;max-width:46ch}
+footer{background:#1d050c;color:#bda982;padding:44px 0 36px;font-size:14px}
+footer .wrap{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px}
+footer b{font:700 22px var(--disp);letter-spacing:.14em;color:var(--ivory)}footer a{color:#bda982;display:block;text-decoration:none;padding:3px 0}footer a:hover{color:var(--gold)}
+footer h4{margin:0 0 8px;color:var(--ivory);font-weight:500}
+dialog{border:0;border-radius:20px;background:var(--bg);color:var(--ink);padding:0;max-width:92vw}
+dialog::backdrop{background:rgba(20,4,10,.75)}
+#pd{width:680px}#pd .in{display:grid;grid-template-columns:200px 1fr;gap:24px;padding:28px}#pd .pic{border-radius:14px}
+.notes dt{font-size:12px;color:var(--muted);margin-top:12px}.notes dd{margin:0}
+.x{position:absolute;right:14px;top:10px;background:none;border:0;font-size:26px;line-height:1}
+#cd{width:400px;height:100%;max-height:100%;margin:0 0 0 auto;border-radius:20px 0 0 20px}
+#cd .in{display:flex;flex-direction:column;height:100%;padding:24px}
+#cd h2{font:700 32px var(--disp);margin:0 0 12px}.lines{flex:1;overflow:auto}
+.line{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.qty{display:flex;align-items:center;gap:10px;margin-top:6px}.qty button{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:none}
+.sum{padding:14px 0 6px;font-size:15px}.sum div{display:flex;justify-content:space-between;padding:3px 0;color:var(--muted)}.sum .t{color:var(--ink);font-weight:700;font-size:18px}
+.empty{color:var(--muted);padding:24px 0}
+.btn{background:none;border:1px solid var(--line);border-radius:999px;padding:9px 16px;margin-top:10px}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--brand);color:var(--gold);padding:10px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:20}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){.mq{animation:none}html{scroll-behavior:auto}*{transition:none!important}}
+@media (max-width:900px){.hero .wrap,.story .wrap{grid-template-columns:1fr;gap:32px}.tiles{grid-template-columns:repeat(2,1fr)}.nav{order:3;width:100%;overflow-x:auto;gap:20px;padding-bottom:10px}.cap{left:10px}footer .wrap{grid-template-columns:1fr}#pd .in{grid-template-columns:1fr}#cd{width:100%;border-radius:0}.sec{padding:52px 0}.cta.o{margin:10px 0 0}}
+</style>
+</head>
+<body>
+<div class="ann" aria-hidden="true"><div class="mq"><span>ORDER ON WHATSAPP ✦ ARABIC OUD ✦ INTERNATIONAL DESIGNER ✦ GIFT SETS ✦ NEW SEASON COLLECTION ✦ LUXURY. SCENT. PRESENCE. ✦</span><span>ORDER ON WHATSAPP ✦ ARABIC OUD ✦ INTERNATIONAL DESIGNER ✦ GIFT SETS ✦ NEW SEASON COLLECTION ✦ LUXURY. SCENT. PRESENCE. ✦</span></div></div>
+<header><div class="wrap hd"><a class="logo" href="#top">RAFIKI</a>
+<nav class="nav" aria-label="Main"><a href="#top">Home</a><a href="#shop" data-cat="all">Shop</a><a href="#shop" data-cat="new">New Arrivals</a><a href="#best">Best Sellers</a><a href="#story">About</a><a href="#contact">Contact</a></nav>
+<button class="bag" id="bagBtn" aria-label="Open bag">Bag<b id="n">0</b></button></div></header>
+<section class="hero" id="top"><div class="wrap">
+<div><p class="eye">NEW COLLECTION 2026</p><h1>Wear Your Signature. <em>Define Presence.</em></h1>
+<p class="lead">Arabic oud and international designer perfumes for people who leave a trail. Choose, add to your bag, and order on WhatsApp.</p>
+<a class="cta" href="#shop" data-cat="all">Shop Collection</a><a class="cta o" href="#shop" data-cat="new">Discover New Arrivals</a>
+<div class="stats"><div><b id="s1">11</b><span>Fragrances</span></div><div><b>3</b><span>Collections</span></div><div><b>1 tap</b><span>To order</span></div></div></div>
+<div class="art"><div id="hb" style="display:contents"></div><div class="cap"><b>New Collection</b><small id="from"></small></div></div>
+</div></section>
+<section class="sec wrap"><div class="head"><p class="eye">BROWSE BY STYLE</p><h2>Shop <em style="color:var(--gold)">Collections</em></h2></div><div class="tiles" id="tiles"></div></section>
+<section class="wrap" id="shop" style="padding-bottom:72px"><div class="head"><p class="eye">FEATURED COLLECTION</p><h2>Our Signature <em style="color:var(--gold)">Scents</em></h2><p>Oud, amber and signature houses, chosen to be worn and remembered.</p></div>
+<div class="tabs" id="tabs" role="tablist" aria-label="Category"></div>
+<div class="bar"><input id="q" type="search" placeholder="Search by name or brand" aria-label="Search perfumes">
+<select id="g" aria-label="For"><option value="">For everyone</option><option>Men</option><option>Women</option><option>Unisex</option></select>
+<select id="s" aria-label="Sort"><option value="f">Featured</option><option value="a">Price: low to high</option><option value="d">Price: high to low</option></select></div>
+<p class="count" id="count"></p><div class="grid" id="grid"></div></section>
+<section class="story" id="story"><div class="wrap sec"><div class="art" id="sa" aria-hidden="true"></div>
+<div><p class="eye" style="color:var(--muted)">OUR STORY</p><h2>Where Oud Meets <em style="color:var(--gold)">Designer</em></h2>
+<p>Rafiki Perfumes brings the warmth of Arabic oud and the signature scents of international houses into one place. Every fragrance is chosen to be worn with intention.</p>
+<div class="vals"><span>Arabic oud</span><span>International designer</span><span>Gift sets</span><span>Order on WhatsApp</span></div>
+<a class="cta d" href="#shop" data-cat="all">Explore Collection</a></div></div></section>
+<section class="sec wrap" id="best"><div class="head"><p class="eye">MOST LOVED</p><h2>Best <em style="color:var(--gold)">Sellers</em></h2></div><div class="grid" id="bestGrid"></div></section>
+<section class="contact sec" id="contact"><div class="wrap"><h2>Talk to us on <em>WhatsApp</em></h2><p>Ask about a scent, a gift or delivery. We reply with advice and confirm your order there.</p><a class="cta" id="waLink" href="https://wa.me/" target="_blank" rel="noopener">Message us</a></div></section>
+<footer><div class="wrap"><div><b>RAFIKI</b><p>Arabic oud and international designer perfumes. Order on WhatsApp.</p></div>
+<div><h4>Shop</h4><a href="#shop" data-cat="all">All perfumes</a><a href="#shop" data-cat="arabic">Arabic</a><a href="#shop" data-cat="designer">Designer</a><a href="#shop" data-cat="gift">Gift sets</a></div>
+<div><h4>Help</h4><a href="#story">About</a><a href="#contact">Contact on WhatsApp</a></div></div></footer>
+<dialog id="pd"><button class="x" data-close aria-label="Close">&times;</button><div class="in" id="pdIn"></div></dialog>
+<dialog id="cd"><div class="in"><h2>Your Bag</h2><div class="lines" id="lines"></div><div class="sum"><div><span>Subtotal</span><span id="sub"></span></div><div><span>Shipping</span><span>Arranged on WhatsApp</span></div><div class="t"><span>Total</span><span id="tot"></span></div></div><button class="cta d" id="wa">Order via WhatsApp</button><button class="btn" data-close>&larr; Continue Shopping</button></div></dialog>
+<div id="toast" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script type="module">
+const SB_URL="https://bnwblndxsjblqephxjnv.supabase.co",SB_KEY="sb_publishable_reqxktF5AnT-PYnMj5DfDw_LnOofuAc";
+const WA="";const CUR="$";   /* WA: your WhatsApp number, digits only */
+const DEF=[
+{id:1,b:"Lattafa",n:"Khamrah",c:"arabic",g:"Unisex",ml:100,p:38,t:"#b8742f",top:"Cinnamon, nutmeg",heart:"Dates, praline",base:"Vanilla, tonka, amberwood"},
+{id:2,b:"Al Haramain",n:"Amber Oud Gold",c:"arabic",g:"Unisex",ml:120,p:55,t:"#c9a227",top:"Bergamot, melon",heart:"Rose, jasmine",base:"Amber, oud, musk"},
+{id:3,b:"Rasasi",n:"Hawas for Him",c:"arabic",g:"Men",ml:100,p:42,t:"#2f7fa8",top:"Apple, citrus, cinnamon",heart:"Plum, floral notes",base:"Ambergris, musk"},
+{id:4,b:"Arabian Oud",n:"Kalemat",c:"arabic",g:"Unisex",ml:100,p:60,t:"#7b2a22",top:"Saffron, rose",heart:"Oud, amber",base:"Sandalwood, musk"},
+{id:5,b:"Afnan",n:"9PM",c:"arabic",g:"Men",ml:100,p:34,t:"#3c2a63",top:"Apple, cinnamon",heart:"Lavender, orange blossom",base:"Vanilla, tonka"},
+{id:6,b:"Dior",n:"Sauvage",c:"designer",g:"Men",ml:100,p:118,t:"#1f5f8b",top:"Bergamot, pepper",heart:"Lavender, geranium",base:"Ambroxan, cedar"},
+{id:7,b:"Chanel",n:"Bleu de Chanel",c:"designer",g:"Men",ml:100,p:142,t:"#16325c",top:"Citrus, mint",heart:"Ginger, jasmine",base:"Cedar, sandalwood"},
+{id:8,b:"Yves Saint Laurent",n:"Libre",c:"designer",g:"Women",ml:90,p:128,t:"#d4a3b0",top:"Lavender, mandarin",heart:"Orange blossom, jasmine",base:"Vanilla, musk"},
+{id:9,b:"Tom Ford",n:"Oud Wood",c:"designer",g:"Unisex",ml:50,p:265,t:"#4a3322",top:"Rosewood, cardamom",heart:"Oud, sandalwood",base:"Amber, tonka"},
+{id:10,b:"Rafiki",n:"Oud Discovery Set",c:"gift",g:"Unisex",ml:36,p:45,t:"#1E4D2B",top:"Three 12 ml oud blends",heart:"Boxed for gifting",base:"Ready to give"},
+{id:11,b:"Rafiki",n:"Designer Mini Trio",c:"gift",g:"Unisex",ml:30,p:79,t:"#8c1d40",top:"Three 10 ml designer minis",heart:"Boxed for gifting",base:"Ready to give"}];
+const CATS=[["all","All"],["arabic","Arabic"],["designer","Designer"],["gift","Gift sets"],["new","New Arrivals"]];let NEW=[4,9,10,11],BEST=[1,2,6,7];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const money=v=>CUR+Number(v).toLocaleString("en-US");
+let P=DEF,cat="all",cart={};
+try{cart=JSON.parse(localStorage.getItem("rp-cart")||"{}")}catch(e){}
+let tt;const toast=m=>{const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("on"),2200)};
+const saveP=()=>{try{localStorage.setItem("rp-p",JSON.stringify(P));return true}catch(e){toast("Storage is full. Remove a photo or use a smaller image.");return false}};
+const saveC=()=>{try{localStorage.setItem("rp-cart",JSON.stringify(cart))}catch(e){}};
+const bot=(t,k)=>`<svg viewBox="0 0 100 130" aria-hidden="true"><defs><linearGradient id="g${k}" x1="0" x2="1"><stop offset="0" stop-color="${t}"/><stop offset=".5" stop-color="${t}" stop-opacity=".72"/><stop offset="1" stop-color="${t}"/></linearGradient></defs><rect x="40" y="6" width="20" height="16" rx="3" fill="#c9a24b"/><rect x="45" y="22" width="10" height="9" fill="#8a6d2f"/><rect x="18" y="31" width="64" height="92" rx="12" fill="url(#g${k})"/><rect x="26" y="40" width="7" height="70" rx="3.5" fill="#fff" opacity=".25"/><rect x="36" y="70" width="40" height="26" rx="2" fill="#F3E5AB" opacity=".9"/></svg>`;
+const pic=(x,k)=>`<div class="pic">${x.img?`<img src="${x.img}" alt="${esc(x.b+" "+x.n)}">`:bot(x.t,k+x.id)}</div>`;
+
+$("#hb").innerHTML=bot("#c9a227","hero");$("#sa").innerHTML=bot("#c9a227","a1")+bot("#7b2a22","a2")+bot("#1f5f8b","a3");
+$("#tabs").innerHTML=CATS.map(([k,l])=>`<button role="tab" data-cat="${k}" aria-selected="${k==="all"}">${l}</button>`).join("");
+
+function render(){
+  const q=$("#q").value.trim().toLowerCase(),g=$("#g").value,s=$("#s").value;
+  const l=P.filter(x=>(cat==="all"||x.c===cat||(cat==="new"&&NEW.includes(x.id)))&&(!g||x.g===g)&&(!q||(x.b+" "+x.n).toLowerCase().includes(q)));
+  if(s==="a")l.sort((a,b)=>a.p-b.p);if(s==="d")l.sort((a,b)=>b.p-a.p);
+  $("#count").textContent=l.length+(l.length===1?" perfume":" perfumes");
+  $("#grid").innerHTML=l.length?l.map(x=>`<article class="card"><button class="open" data-open="${x.id}">${pic(x,"s")}<div class="info"><p class="brand">${esc(x.b)}</p><h3 class="name">${esc(x.n)}</h3><p class="meta">${x.ml} ml &middot; ${x.g}</p></div></button><div class="foot"><span class="price">${money(x.p)}</span><button class="add" data-add="${x.id}">Add to bag</button></div></article>`).join(""):`<p class="empty">No perfumes match. Clear the search or pick another category.</p>`;
+}
+function renderCart(){
+  const ids=Object.keys(cart).filter(i=>cart[i]>0&&P.some(p=>p.id==i));let t=0,n=0;
+  $("#lines").innerHTML=ids.length?ids.map(i=>{const x=P.find(p=>p.id==i);t+=x.p*cart[i];n+=cart[i];
+   return `<div class="line"><div><b>${esc(x.n)}</b><div class="brand">${esc(x.b)} &middot; ${x.ml} ml</div><div class="qty"><button data-dec="${i}" aria-label="Remove one">&minus;</button>${cart[i]}<button data-inc="${i}" aria-label="Add one">+</button></div></div><span class="price">${money(x.p*cart[i])}</span></div>`}).join(""):`<p class="empty">Your bag is empty. Add a perfume to start.</p>`;
+  $("#tot").textContent=money(t);$("#sub").textContent=money(t);$("#n").textContent=n;$("#wa").disabled=!ids.length;$("#wa").style.opacity=ids.length?1:.5;saveC();
+}
+const all=()=>{render();renderCart()};
+function show(id){
+  const x=P.find(p=>p.id==id),gf=x.c==="gift";
+  $("#pdIn").innerHTML=`${pic(x,"m")}<div><p class="brand">${esc(x.b)}</p><h2 class="name" style="font-size:30px;margin-top:0">${esc(x.n)}</h2><p class="meta">${x.ml} ml &middot; ${x.g}</p><dl class="notes"><dt>${gf?"Includes":"Top notes"}</dt><dd>${esc(x.top||"")}</dd><dt>${gf?"Presented":"Heart"}</dt><dd>${esc(x.heart||"")}</dd><dt>${gf?"Ready":"Base"}</dt><dd>${esc(x.base||"")}</dd></dl><p class="price" style="font-size:22px;margin:18px 0">${money(x.p)}</p><button class="cta" data-add="${x.id}">Add to bag</button></div>`;
+  $("#pd").showModal();
+}
+document.addEventListener("click",e=>{
+  const t=e.target.closest("button,dialog,a[data-cat]");if(!t)return;const d=t.dataset;
+  if(d.cat){cat=d.cat;document.querySelectorAll("#tabs [data-cat]").forEach(c=>c.setAttribute("aria-selected",c.dataset.cat===d.cat));render()}
+  else if(d.open)show(d.open);
+  else if(d.add){cart[d.add]=(cart[d.add]||0)+1;renderCart();$("#pd").close();$("#cd").showModal()}
+  else if(d.inc){cart[d.inc]++;renderCart()}
+  else if(d.dec){cart[d.dec]--;renderCart()}
+  else if(t.id==="bagBtn")$("#cd").showModal();
+  else if(t.id==="wa"){
+    const l=Object.keys(cart).filter(i=>cart[i]>0&&P.some(p=>p.id==i)).map(i=>{const x=P.find(p=>p.id==i);return `${cart[i]} x ${x.b} ${x.n} (${x.ml} ml) - ${money(x.p*cart[i])}`});
+    window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(`Hello Rafiki Perfumes, I'd like to order:\n${l.join("\n")}\nTotal: ${$("#tot").textContent}`),"_blank");
+  }
+  else if("close" in d)t.closest("dialog").close();
+  else if(t.tagName==="DIALOG"&&e.target===t)t.close();
+});
+["#q","#g","#s"].forEach(s=>$(s).addEventListener("input",render));
+try{
+  const sb=window.supabase.createClient(SB_URL,SB_KEY);
+  const {data,error}=await sb.from("products").select("*").eq("in_stock",true).order("created_at",{ascending:false});
+  if(!error&&data&&data.length){
+    P=data.map(r=>({id:r.id,b:r.brand,n:r.name,c:r.category,g:r.gender,ml:r.size_ml,p:Number(r.price),t:"#c9a24b",top:r.top_notes||"",heart:r.heart_notes||"",base:r.base_notes||"",img:r.image_url||null}));
+    NEW=data.filter(r=>r.is_new).map(r=>r.id);BEST=data.filter(r=>r.is_best).map(r=>r.id);
+    if(!BEST.length)BEST=P.slice(0,4).map(p=>p.id);
+  }
+}catch(e){}
+const cardH=x=>`<article class="card"><button class="open" data-open="${x.id}">${pic(x,"b")}<div class="info"><p class="brand">${esc(x.b)}</p><h3 class="name">${esc(x.n)}</h3><p class="meta">${x.ml} ml &middot; ${x.g}</p></div></button><div class="foot"><span class="price">${money(x.p)}</span><button class="add" data-add="${x.id}">Add to bag</button></div></article>`;
+$("#bestGrid").innerHTML=BEST.map(i=>cardH(P.find(p=>p.id===i))).join("");
+$("#tiles").innerHTML=[["arabic","Arabic Oud",P.filter(p=>p.c==="arabic").length],["designer","Designer",P.filter(p=>p.c==="designer").length],["gift","Gift Sets",P.filter(p=>p.c==="gift").length],["new","New Arrivals",NEW.length]].map(([k,l,n],i)=>`<a class="tile" href="#shop" data-cat="${k}">${bot(["#c9a227","#1f5f8b","#8c1d40","#4a3322"][i],"t"+i)}<b>${l}</b><small>${n} ${n===1?"scent":"scents"}</small></a>`).join("");
+$("#s1").textContent=P.length;$("#from").textContent="Starting at "+money(Math.min(...P.map(p=>p.p)))+".";
+$("#waLink").href="https://wa.me/"+WA;
+all();
+</script>
+</body>
+</html>

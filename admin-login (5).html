@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin Login | Rafiki Perfumes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#3a0b19;--ink:#24090f;--ivory:#f6ecd6;--card:#fffdf8;--line:#e3d5b5;--muted:#7b6a58;--gold:#c9a45c;--err:#a61e3c;
+--disp:"Cormorant Garamond",Georgia,serif;--sans:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;padding-top:max(24px,env(safe-area-inset-top));padding-bottom:max(24px,env(safe-area-inset-bottom));
+background:radial-gradient(700px 420px at 50% 0%,rgba(201,164,92,.28),transparent 70%),var(--brand);color:var(--ink);font:16px/1.55 var(--sans)}
+.box{width:100%;max-width:420px;background:var(--card);border-radius:22px;padding:40px 34px 32px;border:1px solid rgba(201,164,92,.55);box-shadow:0 30px 70px rgba(0,0,0,.45)}
+.logo{font:700 26px var(--disp);letter-spacing:.18em;text-align:center;margin:0}
+.sub{text-align:center;color:var(--muted);font-size:13px;letter-spacing:.16em;margin:2px 0 28px}
+h1{font:600 38px/1.05 var(--disp);margin:0 0 4px}
+.lead{margin:0 0 24px;color:var(--muted)}
+label{display:block;font-size:14px;font-weight:500;margin:0 0 6px}
+.field{position:relative;margin-bottom:18px}
+input{width:100%;font:inherit;color:inherit;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+input:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold)}
+.field input[type=password],.field input.pw{padding-right:68px}
+.eye{position:absolute;right:8px;bottom:7px;background:none;border:0;color:var(--muted);font-size:13px;padding:6px 8px;cursor:pointer;border-radius:8px}
+.eye:hover{color:var(--ink)}
+button.go{width:100%;border:0;border-radius:999px;background:var(--brand);color:var(--ivory);font:inherit;font-weight:500;padding:13px;cursor:pointer;transition:background .2s,color .2s}
+button.go:hover:not(:disabled){background:var(--gold);color:var(--brand)}
+button.go:disabled{opacity:.6;cursor:wait}
+.msg{min-height:22px;margin:0 0 12px;color:var(--err);font-size:14px}
+.setup{background:#fbf1d8;border:1px solid var(--gold);border-radius:12px;padding:12px 14px;font-size:14px;margin-bottom:18px}
+.back{display:block;text-align:center;margin-top:20px;color:var(--muted);font-size:14px;text-decoration:none}
+.back:hover{color:var(--ink)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main class="box">
+  <p class="logo">RAFIKI</p>
+  <p class="sub">ADMIN PORTAL</p>
+  <h1>Welcome Back</h1>
+  <p class="lead">Sign in to manage your store</p>
+
+  <div class="setup" id="setup" hidden>This page is not connected yet. Add your Supabase URL and anon key at the top of the script in this file.</div>
+
+  <form id="f" novalidate>
+    <div class="field"><label for="email">Email address</label>
+      <input id="email" type="email" autocomplete="username" inputmode="email" required></div>
+    <div class="field"><label for="pw">Password</label>
+      <input id="pw" type="password" autocomplete="current-password" required>
+      <button type="button" class="eye" id="eye" aria-label="Show password">Show</button></div>
+    <p class="msg" id="msg" role="alert" aria-live="polite"></p>
+    <button class="go" id="go" type="submit">Sign in</button>
+  </form>
+  <a class="back" href="index.html">Back to store</a>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+/* 1. Supabase dashboard > Project Settings > API: paste the Project URL and the anon public key.
+   Never paste the service_role key here. The anon key is meant to be public; your row-level
+   security rules are what protect the data. */
+const SUPABASE_URL = "https://bnwblndxsjblqephxjnv.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_reqxktF5AnT-PYnMj5DfDw_LnOofuAc";
+const ADMIN_PAGE = "admin.html";   /* where to go after signing in */
+
+const $ = s => document.querySelector(s);
+const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+if (!sb) $("#setup").hidden = false;
+else sb.auth.getSession().then(({ data }) => { if (data.session) location.replace(ADMIN_PAGE); });
+
+$("#eye").addEventListener("click", () => {
+  const p = $("#pw"), show = p.type === "password";
+  p.type = show ? "text" : "password";
+  $("#eye").textContent = show ? "Hide" : "Show";
+  $("#eye").setAttribute("aria-label", show ? "Hide password" : "Show password");
+});
+
+$("#f").addEventListener("submit", async e => {
+  e.preventDefault();
+  const msg = $("#msg"), go = $("#go"), email = $("#email").value.trim(), password = $("#pw").value;
+  msg.textContent = "";
+  if (!sb) { msg.textContent = "Add your Supabase URL and anon key to connect this page."; return; }
+  if (!email || !password) { msg.textContent = "Enter your email and password."; return; }
+  go.disabled = true; go.textContent = "Signing in...";
+  try {
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) {
+      msg.textContent = error.status === 429
+        ? "Too many attempts. Wait a minute and try again."
+        : "Incorrect email or password.";
+      go.disabled = false; go.textContent = "Sign in";
+      $("#pw").select();
+    } else {
+      location.replace(ADMIN_PAGE);
+    }
+  } catch (err) {
+    msg.textContent = "Could not reach the server. Check your connection and try again.";
+    go.disabled = false; go.textContent = "Sign in";
+  }
+});
+</script>
+</body>
+</html>
