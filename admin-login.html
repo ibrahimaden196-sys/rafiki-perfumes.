@@ -93,14 +93,14 @@ $("#f").addEventListener("submit", async e => {
     if (error) {
       msg.textContent = error.status === 429
         ? "Too many attempts. Wait a minute and try again."
-        : "Incorrect email or password.";
+        : (error.message || "Sign in failed") + (error.code ? " (" + error.code + ")" : "");
       go.disabled = false; go.textContent = "Sign in";
       $("#pw").select();
     } else {
       location.replace(ADMIN_PAGE);
     }
   } catch (err) {
-    msg.textContent = "Could not reach the server. Check your connection and try again.";
+    msg.textContent = "Could not reach the server: " + (err && err.message ? err.message : "check your connection") + ".";
     go.disabled = false; go.textContent = "Sign in";
   }
 });
