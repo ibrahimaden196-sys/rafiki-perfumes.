@@ -9,6 +9,7 @@
 <style>
 :root{--brand:#3a0b19;--ink:#24090f;--ivory:#f6ecd6;--bg:#fbf6ec;--card:#fffdf8;--line:#e3d5b5;--muted:#7b6a58;--gold:#c9a45c;--err:#a61e3c;--disp:"Cormorant Garamond",Georgia,serif}
 *,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "DM Sans",system-ui,sans-serif;padding-bottom:env(safe-area-inset-bottom)}
 header{background:var(--brand);color:var(--ivory);padding-top:env(safe-area-inset-top)}
 .wrap{max-width:1000px;margin:0 auto;padding:0 20px}
@@ -29,6 +30,7 @@ input,select{font:inherit;color:inherit;background:#fff;border:1px solid var(--l
 .f{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:660px}.f label{font-size:13px;color:var(--muted);display:block;margin-bottom:4px}.full{grid-column:1/-1}
 .prev{width:120px;height:150px;border-radius:10px;background:#efe3c3;object-fit:cover;display:none}
 .empty{color:var(--muted);padding:24px 0}
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}.cc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}.cp{position:relative;aspect-ratio:4/5;border-radius:10px;background:#efe3c3;display:grid;place-items:center;color:var(--muted);font-size:13px;margin-bottom:10px;overflow:hidden}.cp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.note{color:var(--muted);font-size:14px;margin:0 0 14px}
 #toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--brand);color:var(--gold);padding:10px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:9;max-width:90vw}
 #toast.on{opacity:1;transform:translate(-50%,0)}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
@@ -38,13 +40,14 @@ input,select{font:inherit;color:inherit;background:#fff;border:1px solid var(--l
 <body>
 <header><div class="wrap hd"><span class="logo">RAFIKI<small>ADMIN</small></span><div><span id="who"></span><a href="index.html" target="_blank" rel="noopener">View store</a><button id="out">Sign out</button></div></div></header>
 <main class="wrap">
-<div class="tabs" role="tablist"><button role="tab" data-t="list" aria-selected="true">Products</button><button role="tab" data-t="form" id="tForm" aria-selected="false">Add product</button></div>
+<div class="tabs" role="tablist"><button role="tab" data-t="list" aria-selected="true">Products</button><button role="tab" data-t="form" id="tForm" aria-selected="false">Add product</button><button role="tab" data-t="coll" aria-selected="false">Site photos</button></div>
 <div id="list"></div>
+<div id="coll" hidden></div>
 <form id="form" class="f" hidden>
 <div><label for="fb">Brand</label><input id="fb" required></div><div><label for="fn">Name</label><input id="fn" required></div>
 <div><label for="fc">Category</label><select id="fc"><option value="arabic">Arabic</option><option value="designer">Designer</option><option value="gift">Gift sets</option></select></div>
 <div><label for="fg">For</label><select id="fg"><option>Unisex</option><option>Men</option><option>Women</option></select></div>
-<div><label for="fm">Size (ml)</label><input id="fm" type="number" min="1" value="100" required></div><div><label for="fp">Price</label><input id="fp" type="number" min="0" step="0.01" required></div>
+<div><label for="fm">Size (ml)</label><input id="fm" type="number" min="1" value="100" required></div><div><label for="fp">Price (₺ TL)</label><input id="fp" type="number" min="0" step="0.01" required></div>
 <div><label for="ft">Top notes</label><input id="ft"></div><div><label for="fh">Heart notes</label><input id="fh"></div>
 <div class="full"><label for="fd">Base notes</label><input id="fd"></div>
 <div class="full chk"><input id="fs" type="checkbox" checked><label for="fs" style="margin:0">In stock</label>&nbsp;&nbsp;<input id="fnw" type="checkbox"><label for="fnw" style="margin:0">New arrival</label>&nbsp;&nbsp;<input id="fbs" type="checkbox"><label for="fbs" style="margin:0">Best seller</label></div>
@@ -61,12 +64,14 @@ const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&g
 let rows=[],cur=null,tt;
 const toast=m=>{const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("on"),2800)};
 const fail=e=>toast((e&&e.message)||"Something went wrong. Try again.");
-const tab=t=>{$("#list").hidden=t!=="list";$("#form").hidden=t!=="form";document.querySelectorAll("[data-t]").forEach(b=>b.setAttribute("aria-selected",b.dataset.t===t))};
+const tab=t=>{$("#list").hidden=t!=="list";$("#coll").hidden=t!=="coll";$("#form").hidden=t!=="form";document.querySelectorAll("[data-t]").forEach(b=>b.setAttribute("aria-selected",b.dataset.t===t))};
 const resize=f=>new Promise((ok,no)=>{const r=new FileReader();r.onerror=no;r.onload=()=>{const i=new Image();i.onerror=no;i.onload=()=>{const s=Math.min(1,1000/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=Math.round(i.width*s);c.height=Math.round(i.height*s);c.getContext("2d").drawImage(i,0,0,c.width,c.height);c.toBlob(b=>b?ok(b):no(new Error("Could not read that image.")),"image/jpeg",.85)};i.src=r.result};r.readAsDataURL(f)});
 async function upload(f){const b=await resize(f),p=Date.now()+"-"+Math.random().toString(36).slice(2,8)+".jpg";
   const{error}=await sb.storage.from(B).upload(p,b,{contentType:"image/jpeg"});if(error)throw error;return sb.storage.from(B).getPublicUrl(p).data.publicUrl}
 const rmFile=async u=>{const p=u&&u.split("/"+B+"/")[1];if(p)await sb.storage.from(B).remove([p])};
 
+const CK=[["hero","Top of the page"],["arabic","Arabic Oud tile"],["designer","Designer tile"],["gift","Gift Sets tile"],["new","New Arrivals tile"],["story","Our Story section"]];
+function drawColl(){$("#coll").innerHTML=`<p class="note">These photos appear on the store: the big picture at the top, the four collection tiles and the Our Story section. Use tall photos for the top and tiles, and a square one for Our Story. A new photo can take up to a minute to show.</p><div class="cg">`+CK.map(([k,l])=>`<div class="cc"><div class="cp"><span>No photo yet</span><img src="${sb.storage.from(B).getPublicUrl("collections/"+k+".jpg").data.publicUrl}?t=${Date.now()}" alt="" onerror="this.remove()"></div><b>${l}</b><div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><label class="btn">Upload photo<input type="file" accept="image/*" hidden data-cphoto="${k}"></label><button class="btn del" data-crm="${k}">Remove</button></div></div>`).join("")+`</div>`}
 async function load(){const{data,error}=await sb.from("products").select("*").order("created_at",{ascending:false});if(error)return fail(error);rows=data;draw()}
 function draw(){
   $("#list").innerHTML=rows.length?rows.map(x=>`<div class="row"><div class="th">${x.image_url?`<img src="${esc(x.image_url)}" alt="">`:"No photo"}</div>
@@ -86,8 +91,9 @@ function fill(x){cur=x;$("#tForm").textContent=x?"Edit product":"Add product";
 
 document.addEventListener("click",async e=>{
   const t=e.target.closest("button");if(!t)return;const d=t.dataset;
-  if(d.t){d.t==="form"?fill(null):tab("list")}
+  if(d.t){d.t==="form"?fill(null):(tab(d.t),d.t==="coll"&&drawColl())}
   else if(d.edit)fill(rows.find(r=>r.id==d.edit));
+  else if(d.crm){const{error}=await sb.storage.from(B).remove(["collections/"+d.crm+".jpg"]);if(error)return fail(error);toast("Photo removed");drawColl()}
   else if(t.id==="cancel")tab("list");
   else if(t.id==="out")sb.auth.signOut();
   else if(d.del){if(!t.dataset.arm){t.dataset.arm=1;t.textContent="Confirm delete";return}
@@ -102,6 +108,7 @@ document.addEventListener("change",async e=>{
     else if(d.photo&&t.files[0]){const x=rows.find(r=>r.id==d.photo);toast("Uploading photo...");
       const url=await upload(t.files[0]);const{error}=await sb.from("products").update({image_url:url}).eq("id",x.id);if(error)throw error;
       try{await rmFile(x.image_url)}catch(_){}toast("Photo updated");load()}
+    else if(d.cphoto&&t.files[0]){toast("Uploading photo...");const b=await resize(t.files[0]);const{error}=await sb.storage.from(B).upload("collections/"+d.cphoto+".jpg",b,{contentType:"image/jpeg",upsert:true,cacheControl:"60"});if(error)throw error;toast("Collection photo saved");drawColl()}
   }catch(err){fail(err);load()}
 });
 $("#form").addEventListener("submit",async e=>{
