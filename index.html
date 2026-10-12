@@ -43,8 +43,9 @@ em{font-style:italic;color:var(--gold)}
 .head h2,.story h2{font:600 clamp(36px,5vw,54px)/1.05 var(--disp);margin:0 0 8px}
 .head p{color:var(--muted);margin:0;max-width:52ch}
 .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.tile{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;align-items:flex-start;min-height:240px;transition:border-color .2s,transform .2s}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;align-items:flex-start;min-height:300px;position:relative;transition:border-color .2s,transform .2s}
 .tile:hover{border-color:var(--gold);transform:translateY(-3px)}
+.tile .tp{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .3s}.tile.ph .tp{opacity:1}.tile.ph::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(29,5,12,.85))}.tile b,.tile small{position:relative;z-index:1}.tile.ph svg{display:none}.tile.ph b{margin-top:auto;color:#fff}.tile.ph small{color:#f1e4bf}.art .ai{position:absolute;inset:0;border-radius:inherit;overflow:hidden;opacity:0;transition:opacity .3s}.art.ph .ai{opacity:1}.art .ai img{width:100%;height:100%;object-fit:cover;display:block}.art.ph #hb{display:none!important}.story .art{position:relative;overflow:hidden}.story .art .tp{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .3s}.story .art.ph .tp{opacity:1}.story .art.ph svg{display:none}
 .tile svg{width:62px;margin:auto 0 18px}.tile b{font:700 28px/1 var(--disp)}.tile small{color:var(--muted)}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
 .tabs button{background:none;border:1px solid var(--ink);border-radius:999px;padding:8px 20px;transition:background .2s,color .2s}
@@ -105,7 +106,7 @@ dialog::backdrop{background:rgba(20,4,10,.75)}
 <p class="lead">Arabic oud and international designer perfumes for people who leave a trail. Choose, add to your bag, and order on WhatsApp.</p>
 <a class="cta" href="#shop" data-cat="all">Shop Collection</a><a class="cta o" href="#shop" data-cat="new">Discover New Arrivals</a>
 <div class="stats"><div><b id="s1">11</b><span>Fragrances</span></div><div><b>3</b><span>Collections</span></div><div><b>1 tap</b><span>To order</span></div></div></div>
-<div class="art"><div id="hb" style="display:contents"></div><div class="cap"><b>New Collection</b><small id="from"></small></div></div>
+<div class="art"><div id="hb" style="display:contents"></div><div class="ai"><img id="heroimg" alt="" onload="this.closest('.art').classList.add('ph')"></div><div class="cap"><b>New Collection</b><small id="from"></small></div></div>
 </div></section>
 <section class="sec wrap"><div class="head"><p class="eye">BROWSE BY STYLE</p><h2>Shop <em style="color:var(--gold)">Collections</em></h2></div><div class="tiles" id="tiles"></div></section>
 <section class="wrap" id="shop" style="padding-bottom:72px"><div class="head"><p class="eye">FEATURED COLLECTION</p><h2>Our Signature <em style="color:var(--gold)">Scents</em></h2><p>Oud, amber and signature houses, chosen to be worn and remembered.</p></div>
@@ -130,7 +131,7 @@ dialog::backdrop{background:rgba(20,4,10,.75)}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script type="module">
 const SB_URL="https://bnwblndxsjblqephxjnv.supabase.co",SB_KEY="sb_publishable_reqxktF5AnT-PYnMj5DfDw_LnOofuAc";
-const WA="";const CUR="$";   /* WA: your WhatsApp number, digits only */
+const WA="905375869395";const CUR="₺";   /* WA: your WhatsApp number, digits only */
 const DEF=[
 {id:1,b:"Lattafa",n:"Khamrah",c:"arabic",g:"Unisex",ml:100,p:38,t:"#b8742f",top:"Cinnamon, nutmeg",heart:"Dates, praline",base:"Vanilla, tonka, amberwood"},
 {id:2,b:"Al Haramain",n:"Amber Oud Gold",c:"arabic",g:"Unisex",ml:120,p:55,t:"#c9a227",top:"Bergamot, melon",heart:"Rose, jasmine",base:"Amber, oud, musk"},
@@ -146,7 +147,7 @@ const DEF=[
 const CATS=[["all","All"],["arabic","Arabic"],["designer","Designer"],["gift","Gift sets"],["new","New Arrivals"]];let NEW=[4,9,10,11],BEST=[1,2,6,7];
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const money=v=>CUR+Number(v).toLocaleString("en-US");
+const money=v=>CUR+Number(v).toLocaleString("tr-TR",{minimumFractionDigits:v%1?2:0,maximumFractionDigits:2});
 let P=DEF,cat="all",cart={};
 try{cart=JSON.parse(localStorage.getItem("rp-cart")||"{}")}catch(e){}
 let tt;const toast=m=>{const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("on"),2200)};
@@ -155,7 +156,7 @@ const saveC=()=>{try{localStorage.setItem("rp-cart",JSON.stringify(cart))}catch(
 const bot=(t,k)=>`<svg viewBox="0 0 100 130" aria-hidden="true"><defs><linearGradient id="g${k}" x1="0" x2="1"><stop offset="0" stop-color="${t}"/><stop offset=".5" stop-color="${t}" stop-opacity=".72"/><stop offset="1" stop-color="${t}"/></linearGradient></defs><rect x="40" y="6" width="20" height="16" rx="3" fill="#c9a24b"/><rect x="45" y="22" width="10" height="9" fill="#8a6d2f"/><rect x="18" y="31" width="64" height="92" rx="12" fill="url(#g${k})"/><rect x="26" y="40" width="7" height="70" rx="3.5" fill="#fff" opacity=".25"/><rect x="36" y="70" width="40" height="26" rx="2" fill="#F3E5AB" opacity=".9"/></svg>`;
 const pic=(x,k)=>`<div class="pic">${x.img?`<img src="${x.img}" alt="${esc(x.b+" "+x.n)}">`:bot(x.t,k+x.id)}</div>`;
 
-$("#hb").innerHTML=bot("#c9a227","hero");$("#sa").innerHTML=bot("#c9a227","a1")+bot("#7b2a22","a2")+bot("#1f5f8b","a3");
+$("#hb").innerHTML=bot("#c9a227","hero");$("#sa").innerHTML=bot("#c9a227","a1")+bot("#7b2a22","a2")+bot("#1f5f8b","a3")+`<img class="tp" src="${SB_URL}/storage/v1/object/public/product-photos/collections/story.jpg" alt="" onload="this.parentNode.classList.add('ph')">`;$("#heroimg").src=SB_URL+"/storage/v1/object/public/product-photos/collections/hero.jpg";
 $("#tabs").innerHTML=CATS.map(([k,l])=>`<button role="tab" data-cat="${k}" aria-selected="${k==="all"}">${l}</button>`).join("");
 
 function render(){
@@ -204,7 +205,7 @@ try{
 }catch(e){}
 const cardH=x=>`<article class="card"><button class="open" data-open="${x.id}">${pic(x,"b")}<div class="info"><p class="brand">${esc(x.b)}</p><h3 class="name">${esc(x.n)}</h3><p class="meta">${x.ml} ml &middot; ${x.g}</p></div></button><div class="foot"><span class="price">${money(x.p)}</span><button class="add" data-add="${x.id}">Add to bag</button></div></article>`;
 $("#bestGrid").innerHTML=BEST.map(i=>cardH(P.find(p=>p.id===i))).join("");
-$("#tiles").innerHTML=[["arabic","Arabic Oud",P.filter(p=>p.c==="arabic").length],["designer","Designer",P.filter(p=>p.c==="designer").length],["gift","Gift Sets",P.filter(p=>p.c==="gift").length],["new","New Arrivals",NEW.length]].map(([k,l,n],i)=>`<a class="tile" href="#shop" data-cat="${k}">${bot(["#c9a227","#1f5f8b","#8c1d40","#4a3322"][i],"t"+i)}<b>${l}</b><small>${n} ${n===1?"scent":"scents"}</small></a>`).join("");
+$("#tiles").innerHTML=[["arabic","Arabic Oud",P.filter(p=>p.c==="arabic").length],["designer","Designer",P.filter(p=>p.c==="designer").length],["gift","Gift Sets",P.filter(p=>p.c==="gift").length],["new","New Arrivals",NEW.length]].map(([k,l,n],i)=>`<a class="tile" href="#shop" data-cat="${k}">${bot(["#c9a227","#1f5f8b","#8c1d40","#4a3322"][i],"t"+i)}<img class="tp" src="${SB_URL}/storage/v1/object/public/product-photos/collections/${k}.jpg" alt="" onload="this.parentNode.classList.add('ph')"><b>${l}</b><small>${n} ${n===1?"scent":"scents"}</small></a>`).join("");
 $("#s1").textContent=P.length;$("#from").textContent="Starting at "+money(Math.min(...P.map(p=>p.p)))+".";
 $("#waLink").href="https://wa.me/"+WA;
 all();
