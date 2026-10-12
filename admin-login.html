@@ -71,6 +71,7 @@ const $ = s => document.querySelector(s);
 const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
+try { const m = sessionStorage.getItem("rp-msg"); if (m) { $("#msg").textContent = m; sessionStorage.removeItem("rp-msg"); } } catch (_) {}
 if (!sb) $("#setup").hidden = false;
 else sb.auth.getSession().then(({ data }) => { if (data.session) location.replace(ADMIN_PAGE); });
 
@@ -97,6 +98,7 @@ $("#f").addEventListener("submit", async e => {
       go.disabled = false; go.textContent = "Sign in";
       $("#pw").select();
     } else {
+      try { localStorage.setItem("rp-last", String(Date.now())); } catch (_) {}
       location.replace(ADMIN_PAGE);
     }
   } catch (err) {
