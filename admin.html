@@ -123,7 +123,13 @@ $("#form").addEventListener("submit",async e=>{
   }catch(err){fail(err)}finally{b.disabled=false;b.textContent="Save product"}
 });
 sb.auth.onAuthStateChange(ev=>{if(ev==="SIGNED_OUT")location.replace("admin-login.html")});
-sb.auth.getSession().then(({data})=>{if(!data.session)location.replace("admin-login.html");else{$("#who").textContent=data.session.user.email;load()}});
+const IDLE=5*60*1000,LK="rp-last";
+const touch=()=>{try{localStorage.setItem(LK,String(Date.now()))}catch(_){}};
+const idle=()=>{try{return Date.now()-(+localStorage.getItem(LK)||0)>IDLE}catch(_){return false}};
+async function lock(){try{sessionStorage.setItem("rp-msg","You were signed out after 5 minutes of inactivity. Sign in again.")}catch(_){}await sb.auth.signOut();location.replace("admin-login.html")}
+let lt=0;["click","keydown","mousemove","touchstart","scroll"].forEach(ev=>addEventListener(ev,()=>{const n=Date.now();if(n-lt>5000){lt=n;touch()}},{passive:true}));
+setInterval(()=>{if(idle())lock()},10000);
+sb.auth.getSession().then(({data})=>{if(!data.session)location.replace("admin-login.html");else if(idle())lock();else{touch();$("#who").textContent=data.session.user.email;load()}});
 </script>
 </body>
 </html>
